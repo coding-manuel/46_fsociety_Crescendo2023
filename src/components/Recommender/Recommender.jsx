@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Group, Select, Button, Anchor, Text } from "@mantine/core";
 import axios from "axios";
 import { Carousel } from "@mantine/carousel";
+import { notifications } from "@mantine/notifications";
 
 const Recommender = () => {
   const [data, setData] = useState({ data: [] });
@@ -67,7 +68,18 @@ const Recommender = () => {
           { value: "AI & ML", label: "AI & ML" },
         ]}
       />
-      <Button color="gray" size="md" onClick={handleClick}>
+      <Button
+        color="gray"
+        size="md"
+        onClick={() =>
+          searchValue != ""
+            ? handleClick()
+            : notifications.show({
+                title: "Alert",
+                message: "Enter an option! 🤥",
+              })
+        }
+      >
         Find Recommendation
       </Button>
       {isLoading && <h2>Loading...</h2>}

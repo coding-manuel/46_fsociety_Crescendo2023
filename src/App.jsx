@@ -11,6 +11,7 @@ import { Route, Routes } from "react-router-dom"
 
 import { supabase } from "./utils/supabaseClient"
 import Home from "./page/Home"
+import Profile from "./page/Profile"
 import { SignIn } from "./page/SignIn"
 import { SignUp } from "./page/SignUp"
 import useMainStore from "./store/mainStore"
@@ -130,6 +131,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </ModalsProvider>
       </MantineProvider>

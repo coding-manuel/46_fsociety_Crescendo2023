@@ -10,6 +10,7 @@ const useMainStore = create(
   persist(
     devtools((set, get) => ({
       userId: null,
+      userDetails: null,
 
       /* AUTH FUNCTION */
       useAuth() {
