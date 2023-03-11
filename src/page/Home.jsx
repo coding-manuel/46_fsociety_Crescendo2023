@@ -5,6 +5,7 @@ import { HeadFootLayout } from "../components/Layout/Layout"
 import Playlist from "../components/Playlist/Playlist"
 import Pomodoro from "../components/Pomodoro/Pomodoro"
 import Todo from "../components/Todo/Todo"
+import Recommender from "../components/Recommender/Recommender"
 
 const Home = () => {
   return (
@@ -16,6 +17,7 @@ const Home = () => {
         </Group>
         <Playlist />
         <CalendarComp />
+        <Recommender />
       </Stack>
     </HeadFootLayout>
   )
