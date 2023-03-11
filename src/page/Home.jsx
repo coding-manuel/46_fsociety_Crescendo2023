@@ -15,7 +15,7 @@ const Home = () => {
           <Todo />
         </Group>
         <Playlist />
-        <CalendarComp />
+        {/* <CalendarComp /> */}
       </Stack>
     </HeadFootLayout>
   )

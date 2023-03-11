@@ -10,6 +10,7 @@ const useMainStore = create(
   persist(
     devtools((set, get) => ({
       userId: null,
+      subjectList: [],
 
       /* AUTH FUNCTION */
       useAuth() {
@@ -61,6 +62,45 @@ const useMainStore = create(
         supabase.auth.getSession().then(({ data: { session } }) => {
           get().setUserData(session)
         })
+      },
+
+      addSubject: (name) => {
+        set((state) =>
+          produce(state, (draftState) => {
+            draftState.subjectList = [
+              ...state.subjectList,
+              { value: name, label: name, time: 0 },
+            ]
+          })
+        )
+      },
+
+      addTimeToSubject: (time, subject) => {
+        get().subjectList.map((el, index) => {
+          if (el.value === subject)
+            set((state) =>
+              produce(state, (draftState) => {
+                draftState.subjectList[index].time =
+                  state.subjectList[index].time + time
+              })
+            )
+        })
+      },
+
+      handleNewSubjectList: (newValue) => {
+        set((state) =>
+          produce(state, (draftState) => {
+            draftState.subjectList = newValue
+          })
+        )
+      },
+
+      removeSubject: (value) => {
+        set((state) =>
+          produce(state, (draftState) => {
+            draftState.subjectList = [...state.subjectList, value]
+          })
+        )
       },
     })),
     {

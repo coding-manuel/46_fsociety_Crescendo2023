@@ -6,9 +6,9 @@ const useEventStore = create(
   persist(
     devtools((set, get) => ({
       events: [],
+      eventDays: [],
 
       addNewEvent: (event, date) => {
-        console.log(event, date)
         set((state) =>
           produce(state, (draftState) => {
             draftState.events = [event, date]
