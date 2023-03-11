@@ -71,22 +71,6 @@ const Recommender = () => {
         Find Recommendation
       </Button>
       {isLoading && <h2>Loading...</h2>}
-      {/* <Carousel
-        withIndicators
-        height={200}
-        slideSize="33.333333%"
-        slideGap="md"
-        loop
-        align="start"
-        slidesToScroll={3}
-      >
-        <Carousel.Slide>
-          <Anchor href={course.url} target="_blank">
-            {course.course_name}
-          </Anchor>
-          <Text fz="xs">{course.course_desc}</Text>
-        </Carousel.Slide>
-      </Carousel> */}
       {isCalled && (
         <Carousel
           withIndicators
@@ -105,13 +89,6 @@ const Recommender = () => {
                 </Anchor>
                 <Text fz="xs">{course.course_desc}</Text>
               </Carousel.Slide>
-              // <div>
-              //   <Anchor href={course.url} target="_blank">
-              //     {course.course_name}
-              //   </Anchor>
-              //   <Text fz="xs">{course.course_desc}</Text>
-              //   <br />
-              // </div>
             );
           })}
         </Carousel>
