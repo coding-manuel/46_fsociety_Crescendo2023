@@ -12,6 +12,7 @@ import { Route, Routes } from "react-router-dom"
 import { supabase } from "./utils/supabaseClient"
 import Home from "./page/Home"
 import Profile from "./page/Profile"
+import Quiz from "./page/Quiz"
 import { SignIn } from "./page/SignIn"
 import { SignUp } from "./page/SignUp"
 import ParentPage from "./page/ParentPage"
@@ -182,6 +183,7 @@ const App = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/test" element={<Test />} />
             <Route path="/parent/:userId" element={<ParentPage />} />
+            <Route path="/quiz" element={<Quiz />} />
           </Routes>
         </ModalsProvider>
       </MantineProvider>
