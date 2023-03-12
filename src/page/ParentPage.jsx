@@ -1,4 +1,6 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
+import { useParams } from "react-router"
+import { supabase } from "../utils/supabaseClient"
 import {
   Avatar,
   Stack,
@@ -10,11 +12,20 @@ import {
   Button,
 } from "@mantine/core"
 import { HeadFootLayout } from "../components/Layout/Layout"
-import useMainStore from "../store/mainStore"
 import Graph from "../components/Graphs/Graph"
 
-const Profile = () => {
-  const userDetails = useMainStore((state) => state.userDetails)
+const ParentPage = () => {
+  const { userId } = useParams()
+  const [userIdState, setUserId] = useState(null)
+  useEffect(() => {
+    getUserDetails()
+  }, [])
+
+  const getUserDetails = async () => {
+    let x = await supabase.from("profiles").select("*").eq("id", userId)
+    setUserId(x.data[0])
+  }
+
   const avatar = (
     <Avatar alt="Avatar for badge" size={24} mr={5} src="./avatar.png" />
   )
@@ -22,28 +33,16 @@ const Profile = () => {
   return (
     <HeadFootLayout>
       <Stack>
-        <Group position="apart">
-          <h1>My Profile</h1>
-          <CopyButton value={`http://127.0.0.1:5173/parent/${userDetails.id}`}>
-            {({ copied, copy }) => (
-              <Button color={copied ? "teal" : "blue"} onClick={copy}>
-                {copied ? "Copied url" : "Copy url"}
-              </Button>
-            )}
-          </CopyButton>
-        </Group>
+        <h1>My Profile</h1>
         <Group align="flex-start">
           <Avatar
             radius="xl"
             size="xl"
             src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80"
           />
-          <h1>{userDetails.full_name}</h1>
+          <h1>{userIdState?.full_name}</h1>
         </Group>
         <br />
-        <Box maw={300}>
-          <TextInput label="Email" value={userDetails.email} disabled />
-        </Box>
         <Group align="flex-start" grow>
           <Badge pl={0} size="lg" color="teal" radius="xl" leftSection={avatar}>
             10 Hrs Of Study
@@ -64,4 +63,4 @@ const Profile = () => {
   )
 }
 
-export default Profile
+export default ParentPage
