@@ -6,6 +6,8 @@ import {
   Text,
   Badge,
   SegmentedControl,
+  Select,
+  Group,
 } from "@mantine/core"
 import { showNotification, cleanNotifications } from "@mantine/notifications"
 import { useHotkeys } from "@mantine/hooks"
@@ -17,6 +19,7 @@ import {
   Gear,
   Pause,
   Play,
+  Plus,
 } from "phosphor-react"
 import usePomodoroStore from "../../store/pomodoroStore"
 import Title from "../Layout/Title"
@@ -25,6 +28,8 @@ import PomodoroSettings from "./PomodoroSettings"
 
 import pomodoroSound from "/assets/sounds/timer-complete.mp3"
 import pomodoroTickingSound from "/assets/sounds/ticking.mp3"
+import SubjectModal from "../SubjectModal"
+import useMainStore from "../../store/mainStore"
 
 const POMODORO_MODES = [
   { label: "Pomodoro", value: "pomodoro" },
@@ -37,6 +42,7 @@ const Pomodoro = ({ name }) => {
   const shortBreak = usePomodoroStore((state) => state.shortBreak)
   const longBreak = usePomodoroStore((state) => state.longBreak)
   const pomodoroToday = usePomodoroStore((state) => state.pomodoroToday)
+  const selectedSubject = usePomodoroStore((state) => state.selectedSubject)
   const setPomodoroComplete = usePomodoroStore(
     (state) => state.setPomodoroComplete
   )
@@ -46,6 +52,11 @@ const Pomodoro = ({ name }) => {
   const resetPomodoroComplete = usePomodoroStore(
     (state) => state.resetPomodoroComplete
   )
+  const setSelectedSubject = usePomodoroStore(
+    (state) => state.setSelectedSubject
+  )
+  const subjectList = useMainStore((state) => state.subjectList)
+  const addTimeToSubject = useMainStore((state) => state.addTimeToSubject)
 
   useHotkeys([
     ["mod+P", () => setIsActive(!isActive)],
@@ -60,6 +71,9 @@ const Pomodoro = ({ name }) => {
   const [opened, setOpened] = useState(false)
   const [sound, setSound] = useState(null)
   const [ticking, setTicking] = useState(null)
+  const [subjectModalOpened, setSubjectModalOpened] = useState(false)
+  const [selectedSubjectValue, setSelectedSubjectValue] =
+    useState(selectedSubject)
 
   useEffect(() => {
     var soundComplete = new Audio(pomodoroSound)
@@ -105,6 +119,7 @@ const Pomodoro = ({ name }) => {
 
       if (secondsLeft === 0 && mode == "pomodoro") {
         setPomodoroComplete()
+        addTimeToSubject(pomodoro, selectedSubject)
       }
 
       return () => clearInterval(interval)
@@ -148,6 +163,12 @@ const Pomodoro = ({ name }) => {
     setIsActive(false)
   }
 
+  const handleSelectedSubject = (value) => {
+    console.log(value)
+    setSelectedSubject(value)
+    setSelectedSubjectValue(value)
+  }
+
   return (
     <>
       <Stack>
@@ -161,6 +182,8 @@ const Pomodoro = ({ name }) => {
           </ActionIcon>
         </Title>
         <Flex
+          direction="column"
+          gap={8}
           w="100%"
           sx={(_) => ({
             "@media (max-width: 768px)": {
@@ -174,6 +197,19 @@ const Pomodoro = ({ name }) => {
             data={POMODORO_MODES}
             onChange={(value) => setMode(value)}
           />
+          <Group>
+            <Select
+              size="xs"
+              placeholder="Subject"
+              data={subjectList}
+              value={selectedSubjectValue}
+              onChange={handleSelectedSubject}
+              sx={{ flexGrow: 2 }}
+            />
+            <ActionIcon onClick={() => setSubjectModalOpened(true)}>
+              <Plus size={16} />
+            </ActionIcon>
+          </Group>
         </Flex>
         <Flex
           align="center"
@@ -246,6 +282,11 @@ const Pomodoro = ({ name }) => {
         open={opened}
         onClose={() => setOpened(false)}
         onSaveSettings={savePomodoroConfiguration}
+      />
+
+      <SubjectModal
+        open={subjectModalOpened}
+        onClose={() => setSubjectModalOpened(false)}
       />
     </>
   )

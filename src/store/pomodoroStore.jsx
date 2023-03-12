@@ -9,6 +9,7 @@ const usePomodoroStore = create(
       shortBreak: 5,
       longBreak: 10,
       pomodoroToday: 0,
+      selectedSubject: "",
 
       saveNewConfiguration: (newValues) => {
         console.log(newValues)
@@ -33,6 +34,14 @@ const usePomodoroStore = create(
         set((state) =>
           produce(state, (draftState) => {
             draftState.pomodoroToday = state.pomodoroToday + 1
+          })
+        )
+      },
+
+      setSelectedSubject: (value) => {
+        set((state) =>
+          produce(state, (draftState) => {
+            draftState.selectedSubject = value
           })
         )
       },
