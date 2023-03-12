@@ -5,6 +5,7 @@ import { HeadFootLayout } from "../components/Layout/Layout";
 import Playlist from "../components/Playlist/Playlist";
 import Pomodoro from "../components/Pomodoro/Pomodoro";
 import Todo from "../components/Todo/Todo";
+import Notes from "../components/Notes/Notes";
 import Recommender from "../components/Recommender/Recommender";
 import Welcome from "../components/Welcome";
 
@@ -20,6 +21,7 @@ const Home = () => {
         <Recommender />
         <Playlist />
         <CalendarComp />
+        <Button>Notes</Button>
       </Stack>
     </HeadFootLayout>
   );

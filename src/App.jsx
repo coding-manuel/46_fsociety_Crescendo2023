@@ -18,6 +18,7 @@ import { SignUp } from "./page/SignUp"
 import ParentPage from "./page/ParentPage"
 import useMainStore from "./store/mainStore"
 import Test from "./page/Test"
+import Notes from "./components/Notes/Notes"
 
 const SCREEN_ON_TIME_KEY = "screenOnTime"
 const SCREEN_OFF_TIME_KEY = "screenOffTime"
@@ -184,6 +185,7 @@ const App = () => {
             <Route path="/test" element={<Test />} />
             <Route path="/parent/:userId" element={<ParentPage />} />
             <Route path="/quiz" element={<Quiz />} />
+            <Route path="/notes" element={<Notes />} />
           </Routes>
         </ModalsProvider>
       </MantineProvider>
