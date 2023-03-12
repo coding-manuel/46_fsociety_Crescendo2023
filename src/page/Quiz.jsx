@@ -1,4 +1,4 @@
-import { Button, Group, Stack, Container, Text } from "@mantine/core"
+import { Button, Group, Stack, Container, Text, Title } from "@mantine/core"
 import React, { useState } from "react"
 import useMainStore from "../store/mainStore"
 import { supabase } from "../utils/supabaseClient"
@@ -79,9 +79,9 @@ const Quiz = () => {
     }
   }
   return (
-    <Stack spacing="xl" position="center">
+    <Stack spacing="xl" align="center">
+      <Title order={5}>General Knowledge Quiz</Title>
       <Group pos="relative" top="30vh">
-        <Title order={5}>General Knowledge Quiz</Title>
         {showScore ? (
           <div className="score-section">
             You scored {score} out of {questions.length}
