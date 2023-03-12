@@ -183,7 +183,10 @@ const App = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/test" element={<Test />} />
             <Route path="/parent/:userId" element={<ParentPage />} />
-            <Route path="/quiz" element={<Quiz />} />
+            <Route
+              path="/quiz/557cb372-e9a7-41bb-b549-9d087ecb7c3f"
+              element={<Quiz />}
+            />
           </Routes>
         </ModalsProvider>
       </MantineProvider>

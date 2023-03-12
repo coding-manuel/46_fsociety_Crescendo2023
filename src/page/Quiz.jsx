@@ -1,7 +1,10 @@
-import { Button, Group, Stack, Container, Text } from "@mantine/core";
-import React, { useState } from "react";
+import { Button, Group, Stack, Container, Text } from "@mantine/core"
+import React, { useState } from "react"
+import useMainStore from "../store/mainStore"
+import { supabase } from "../utils/supabaseClient"
 
 const Quiz = () => {
+  const userId = useMainStore((state) => state.userId)
   const questions = [
     {
       questionText: "What is the capital of France?",
@@ -39,27 +42,46 @@ const Quiz = () => {
         { answerText: "7", isCorrect: true },
       ],
     },
-  ];
+  ]
 
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [showScore, setShowScore] = useState(false);
-  const [score, setScore] = useState(0);
+  const [currentQuestion, setCurrentQuestion] = useState(0)
+  const [showScore, setShowScore] = useState(false)
+  const [score, setScore] = useState(0)
 
-  const handleAnswerOptionClick = (isCorrect) => {
+  const handleAnswerOptionClick = async (isCorrect) => {
     if (isCorrect) {
-      setScore(score + 1);
+      setScore(score + 1)
     }
 
-    const nextQuestion = currentQuestion + 1;
+    const nextQuestion = currentQuestion + 1
     if (nextQuestion < questions.length) {
-      setCurrentQuestion(nextQuestion);
+      setCurrentQuestion(nextQuestion)
     } else {
-      setShowScore(true);
+      setShowScore(true)
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("quiz_scores")
+        .eq("id", userId)
+
+      let oldScore = data[0].quiz_scores
+
+      if (oldScore !== null) {
+        await supabase
+          .from("profiles")
+          .update({ quiz_scores: [...oldScore, score] })
+          .eq("id", userId)
+      } else {
+        await supabase
+          .from("profiles")
+          .update({ quiz_scores: [score] })
+          .eq("id", userId)
+      }
     }
-  };
+  }
   return (
     <Stack spacing="xl" position="center">
       <Group pos="relative" top="30vh">
+        <Title order={5}>General Knowledge Quiz</Title>
         {showScore ? (
           <div className="score-section">
             You scored {score} out of {questions.length}
@@ -68,9 +90,11 @@ const Quiz = () => {
           <Container>
             <Group>
               <Group align="flex-start" grow>
-                <Text>Question {currentQuestion + 1}/{questions.length}</Text>
+                <Text>
+                  Question {currentQuestion + 1}/{questions.length}
+                </Text>
               </Group>
-                {questions[currentQuestion].questionText}
+              {questions[currentQuestion].questionText}
             </Group>
             <br />
             <br />
@@ -89,7 +113,7 @@ const Quiz = () => {
         )}
       </Group>
     </Stack>
-  );
-};
+  )
+}
 
-export default Quiz;
+export default Quiz
