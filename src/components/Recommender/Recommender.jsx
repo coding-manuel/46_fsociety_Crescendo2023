@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Select, Button, Anchor, Text } from "@mantine/core";
+import { Stack, Select, Button, Anchor, Text } from "@mantine/core";
 import axios from "axios";
 import { Carousel } from "@mantine/carousel";
 import { notifications } from "@mantine/notifications";
