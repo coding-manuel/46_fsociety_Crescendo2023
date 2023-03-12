@@ -2,6 +2,7 @@ import React from "react";
 import { Avatar, Stack, Group, Box, TextInput, Badge } from "@mantine/core";
 import { HeadFootLayout } from "../components/Layout/Layout";
 import useMainStore from "../store/mainStore";
+import Graph from "../components/Graphs/Graph";
 
 const Profile = () => {
   const userDetails = useMainStore((state) => state.userDetails);
@@ -39,6 +40,7 @@ const Profile = () => {
             Listen to Music
           </Badge>
         </Group>
+        <Graph />
       </Stack>
     </HeadFootLayout>
   );

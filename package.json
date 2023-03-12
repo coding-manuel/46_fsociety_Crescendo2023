@@ -22,9 +22,11 @@
     "embla-carousel-react": "^7.1.0",
     "immer": "^9.0.19",
     "phosphor-react": "^1.4.1",
+    "plotly.js": "^2.18.2",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
+    "react-plotly.js": "^2.6.0",
     "react-router-dom": "^6.9.0",
     "react-youtube": "^10.1.0",
     "zustand": "3.7.2"
