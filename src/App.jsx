@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import {
   ColorSchemeProvider,
   GlobalStyles,
@@ -14,7 +14,12 @@ import Home from "./page/Home"
 import Profile from "./page/Profile"
 import { SignIn } from "./page/SignIn"
 import { SignUp } from "./page/SignUp"
+import ParentPage from "./page/ParentPage"
 import useMainStore from "./store/mainStore"
+import Test from "./page/Test"
+
+const SCREEN_ON_TIME_KEY = "screenOnTime"
+const SCREEN_OFF_TIME_KEY = "screenOffTime"
 
 const App = () => {
   const userId = useMainStore((state) => state.userId)
@@ -115,6 +120,49 @@ const App = () => {
       setUserData(session)
     })
   }, [])
+
+  const [timeOnWebsite, setTimeOnWebsite] = useState(
+    Number(localStorage.getItem(SCREEN_ON_TIME_KEY)) || 0
+  )
+
+  const [timeOffWebsite, setTimeOffWebsite] = useState(
+    Number(localStorage.getItem(SCREEN_OFF_TIME_KEY)) || 0
+  )
+
+  const currentUrl = useRef(window.location.href)
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (
+        !document.hidden &&
+        currentUrl.current.includes("http://127.0.0.1:5173/")
+      ) {
+        setTimeOnWebsite((prevTime) => prevTime + 1)
+      } else {
+        setTimeOffWebsite((prevTime) => prevTime + 1)
+      }
+    }, 1000)
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        localStorage.setItem(SCREEN_ON_TIME_KEY, timeOnWebsite.toString())
+        localStorage.setItem(SCREEN_OFF_TIME_KEY, timeOffWebsite.toString())
+      }
+    }
+
+    const handleUrlChange = () => {
+      currentUrl.current = window.location.href
+    }
+
+    window.addEventListener("popstate", handleUrlChange)
+    document.addEventListener("visibilitychange", handleVisibilityChange)
+
+    return () => {
+      clearInterval(intervalId)
+      window.removeEventListener("popstate", handleUrlChange)
+      document.removeEventListener("visibilitychange", handleVisibilityChange)
+    }
+  }, [currentUrl, timeOnWebsite])
   return (
     <ColorSchemeProvider
       colorScheme={colorScheme}
@@ -132,6 +180,8 @@ const App = () => {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/test" element={<Test />} />
+            <Route path="/parent/:userId" element={<ParentPage />} />
           </Routes>
         </ModalsProvider>
       </MantineProvider>
