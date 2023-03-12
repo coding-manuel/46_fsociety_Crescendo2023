@@ -32,7 +32,16 @@ class Graph extends React.Component {
         <Group align="flex-start" grow>
           <Plot
             data={bardata}
-            layout={{ width: 400, height: 400, title: "Performance" }}
+            layout={{
+              width: 400,
+              height: 400,
+              title: "Performance",
+              paper_bgcolor: "rgba(0,0,0,0)",
+              plot_bgcolor: "rgba(0,0,0,0)",
+              font: {
+                color: '#fff'
+              }
+            }}
           />
           <Plot
             data={piedata}
@@ -40,6 +49,11 @@ class Graph extends React.Component {
               width: 400,
               height: 400,
               title: "Time Spent On Subjects",
+              paper_bgcolor: "rgba(0,0,0,0)",
+              plot_bgcolor: "rgba(0,0,0,0)",
+              font: {
+                color: '#fff'
+              }
             }}
           />
         </Group>
