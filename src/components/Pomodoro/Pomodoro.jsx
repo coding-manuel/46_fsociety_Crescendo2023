@@ -9,7 +9,7 @@ import {
   Select,
   Group,
 } from "@mantine/core"
-import { showNotification, cleanNotifications } from "@mantine/notifications"
+import { showNotification, cleanNotifications, notifications } from "@mantine/notifications"
 import { useHotkeys } from "@mantine/hooks"
 
 import {
@@ -106,6 +106,10 @@ const Pomodoro = ({ name }) => {
 
       if (secondsLeft === 0) {
         sound.play()
+        notifications.show({
+          title: "Congratulations",
+          message: "You have completed the Pomodoro! 🥳",
+        })
         clearInterval(interval)
         restartPomodoro()
 
