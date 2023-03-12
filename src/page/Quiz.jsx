@@ -1,6 +1,5 @@
 import { Button, Group, Stack, Container, Text } from "@mantine/core";
 import React, { useState } from "react";
-import "./quiz.css";
 
 const Quiz = () => {
   const questions = [
