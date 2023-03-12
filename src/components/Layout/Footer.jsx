@@ -43,10 +43,6 @@ export default function Footer() {
   const { classes } = useStyles()
   const links = [
     {
-      label: "Shop Setup",
-      link: "/createshop",
-    },
-    {
       label: "Register",
       link: "/signup",
     },

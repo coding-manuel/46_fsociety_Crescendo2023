@@ -70,7 +70,6 @@ const Recommender = () => {
       />
       <Button
         color="gray"
-        size="md"
         onClick={() =>
           searchValue != ""
             ? handleClick()
@@ -99,6 +98,9 @@ const Recommender = () => {
                 <Anchor href={course.url} target="_blank">
                   {course.course_name}
                 </Anchor>
+                <Text>
+                  Difficulty Level: <strong>{course.course_difficulty}</strong>
+                </Text>
                 <Text fz="xs">{course.course_desc}</Text>
               </Carousel.Slide>
             );
