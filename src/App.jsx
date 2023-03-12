@@ -1,40 +1,40 @@
-import React, { useEffect, useState, useRef } from "react"
+import React, { useEffect, useState, useRef } from "react";
 import {
   ColorSchemeProvider,
   GlobalStyles,
   MantineProvider,
-} from "@mantine/core"
-import { ModalsProvider } from "@mantine/modals"
-import { Notifications } from "@mantine/notifications"
-import { useLocalStorage } from "@mantine/hooks"
-import { Route, Routes } from "react-router-dom"
+} from "@mantine/core";
+import { ModalsProvider } from "@mantine/modals";
+import { Notifications } from "@mantine/notifications";
+import { useLocalStorage } from "@mantine/hooks";
+import { Route, Routes } from "react-router-dom";
 
-import { supabase } from "./utils/supabaseClient"
-import Home from "./page/Home"
-import Profile from "./page/Profile"
-import Quiz from "./page/Quiz"
-import { SignIn } from "./page/SignIn"
-import { SignUp } from "./page/SignUp"
-import ParentPage from "./page/ParentPage"
-import useMainStore from "./store/mainStore"
-import Test from "./page/Test"
-import Notes from "./components/Notes/Notes"
+import { supabase } from "./utils/supabaseClient";
+import Home from "./page/Home";
+import Profile from "./page/Profile";
+import Quiz from "./page/Quiz";
+import { SignIn } from "./page/SignIn";
+import { SignUp } from "./page/SignUp";
+import ParentPage from "./page/ParentPage";
+import useMainStore from "./store/mainStore";
+import Test from "./page/Test";
+import Notes from "./components/Notes/Notes";
 
-const SCREEN_ON_TIME_KEY = "screenOnTime"
-const SCREEN_OFF_TIME_KEY = "screenOffTime"
+const SCREEN_ON_TIME_KEY = "screenOnTime";
+const SCREEN_OFF_TIME_KEY = "screenOffTime";
 
 const App = () => {
-  const userId = useMainStore((state) => state.userId)
-  const setUserData = useMainStore((state) => state.setUserData)
+  const userId = useMainStore((state) => state.userId);
+  const setUserData = useMainStore((state) => state.setUserData);
 
   const [colorScheme, setColorScheme] = useLocalStorage({
     key: "mantine-color-scheme",
     defaultValue: "dark",
     getInitialValueInEffect: true,
-  })
+  });
 
   const toggleColorScheme = (value) =>
-    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"))
+    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
 
   const theme = {
     components: GlobalStyles,
@@ -111,27 +111,27 @@ const App = () => {
         h6: { fontSize: "1.107rem" },
       },
     },
-  }
+  };
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (userId) setUserData(session)
-    })
+      if (userId) setUserData(session);
+    });
 
     supabase.auth.onAuthStateChange((_event, session) => {
-      setUserData(session)
-    })
-  }, [])
+      setUserData(session);
+    });
+  }, []);
 
   const [timeOnWebsite, setTimeOnWebsite] = useState(
     Number(localStorage.getItem(SCREEN_ON_TIME_KEY)) || 0
-  )
+  );
 
   const [timeOffWebsite, setTimeOffWebsite] = useState(
     Number(localStorage.getItem(SCREEN_OFF_TIME_KEY)) || 0
-  )
+  );
 
-  const currentUrl = useRef(window.location.href)
+  const currentUrl = useRef(window.location.href);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -139,32 +139,32 @@ const App = () => {
         !document.hidden &&
         currentUrl.current.includes("http://127.0.0.1:5173/")
       ) {
-        setTimeOnWebsite((prevTime) => prevTime + 1)
+        setTimeOnWebsite((prevTime) => prevTime + 1);
       } else {
-        setTimeOffWebsite((prevTime) => prevTime + 1)
+        setTimeOffWebsite((prevTime) => prevTime + 1);
       }
-    }, 1000)
+    }, 1000);
 
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        localStorage.setItem(SCREEN_ON_TIME_KEY, timeOnWebsite.toString())
-        localStorage.setItem(SCREEN_OFF_TIME_KEY, timeOffWebsite.toString())
+        localStorage.setItem(SCREEN_ON_TIME_KEY, timeOnWebsite.toString());
+        localStorage.setItem(SCREEN_OFF_TIME_KEY, timeOffWebsite.toString());
       }
-    }
+    };
 
     const handleUrlChange = () => {
-      currentUrl.current = window.location.href
-    }
+      currentUrl.current = window.location.href;
+    };
 
-    window.addEventListener("popstate", handleUrlChange)
-    document.addEventListener("visibilitychange", handleVisibilityChange)
+    window.addEventListener("popstate", handleUrlChange);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
-      clearInterval(intervalId)
-      window.removeEventListener("popstate", handleUrlChange)
-      document.removeEventListener("visibilitychange", handleVisibilityChange)
-    }
-  }, [currentUrl, timeOnWebsite])
+      clearInterval(intervalId);
+      window.removeEventListener("popstate", handleUrlChange);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [currentUrl, timeOnWebsite]);
   return (
     <ColorSchemeProvider
       colorScheme={colorScheme}
@@ -184,13 +184,16 @@ const App = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/test" element={<Test />} />
             <Route path="/parent/:userId" element={<ParentPage />} />
-            <Route path="/quiz" element={<Quiz />} />
+            <Route
+              path="/quiz/557cb372-e9a7-41bb-b549-9d087ecb7c3f"
+              element={<Quiz />}
+            />
             <Route path="/notes" element={<Notes />} />
           </Routes>
         </ModalsProvider>
       </MantineProvider>
     </ColorSchemeProvider>
-  )
-}
+  );
+};
 
-export default App
+export default App;

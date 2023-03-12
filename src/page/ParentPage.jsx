@@ -10,6 +10,8 @@ import {
   Badge,
   CopyButton,
   Button,
+  Title,
+  Table,
 } from "@mantine/core"
 import { HeadFootLayout } from "../components/Layout/Layout"
 import Graph from "../components/Graphs/Graph"
@@ -29,6 +31,18 @@ const ParentPage = () => {
   const avatar = (
     <Avatar alt="Avatar for badge" size={24} mr={5} src="./avatar.png" />
   )
+
+  const elements = [
+    { Name: "Web Development", Marks: 3 },
+    { Name: "General Knowledge", Marks: userIdState?.quiz_scores[0] },
+  ]
+
+  const rows = elements.map((element) => (
+    <tr>
+      <td>{element.Name}</td>
+      <td>{element.Marks}</td>
+    </tr>
+  ))
 
   return (
     <HeadFootLayout>
@@ -57,6 +71,18 @@ const ParentPage = () => {
             Listen to Music
           </Badge>
         </Group>
+        <Stack>
+          <Title order={5}>Quiz Results</Title>
+          <Table>
+            <thead>
+              <tr>
+                <th>Quiz Name</th>
+                <th>Marks</th>
+              </tr>
+            </thead>
+            <tbody>{rows}</tbody>
+          </Table>
+        </Stack>
         <Graph />
       </Stack>
     </HeadFootLayout>

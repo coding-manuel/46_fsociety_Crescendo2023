@@ -5,9 +5,13 @@ import {
   Group,
   Box,
   TextInput,
+  Text,
   Badge,
   CopyButton,
   Button,
+  Title,
+  Divider,
+  Table,
 } from "@mantine/core"
 import { HeadFootLayout } from "../components/Layout/Layout"
 import useMainStore from "../store/mainStore"
@@ -18,6 +22,18 @@ const Profile = () => {
   const avatar = (
     <Avatar alt="Avatar for badge" size={24} mr={5} src="./avatar.png" />
   )
+
+  const elements = [
+    { Name: "Web Development", Marks: 3 },
+    { Name: "General Knowledge", Marks: userDetails?.quiz_scores[0] },
+  ]
+
+  const rows = elements.map((element) => (
+    <tr>
+      <td>{element.Name}</td>
+      <td>{element.Marks}</td>
+    </tr>
+  ))
 
   return (
     <HeadFootLayout>
@@ -58,6 +74,20 @@ const Profile = () => {
             Listen to Music
           </Badge>
         </Group>
+        <Divider />
+        <Stack>
+          <Title order={5}>Quiz Results</Title>
+          <Table>
+            <thead>
+              <tr>
+                <th>Quiz Name</th>
+                <th>Marks</th>
+              </tr>
+            </thead>
+            <tbody>{rows}</tbody>
+          </Table>
+        </Stack>
+        <Divider />
         <Graph />
       </Stack>
     </HeadFootLayout>
